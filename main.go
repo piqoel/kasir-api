@@ -40,7 +40,7 @@ var categories = []Category{
 // Deklarasi Fungsi untuk menangani request GET, PUT, DELETE berdasarkan ID Produk
 
 func getProdukByID(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/produk/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/produk/")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		http.Error(w, "Invalid Produk ID", http.StatusBadRequest)
@@ -60,7 +60,7 @@ func getProdukByID(w http.ResponseWriter, r *http.Request) {
 
 func updateProduk(w http.ResponseWriter, r *http.Request) {
 	//get id dari request
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/produk/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/produk/")
 
 	//ganti int
 	id, err := strconv.Atoi(idStr)
@@ -93,7 +93,7 @@ func updateProduk(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteProduk(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/produk/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/produk/")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		http.Error(w, "Invalid Produk ID", http.StatusBadRequest)
@@ -155,7 +155,7 @@ func handleCategories(w http.ResponseWriter, r *http.Request) {
 func handleCategoryByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	id, err := getIDFromURL(r, "/api/category/") //Memanggil helper untuk mendapatkan ID dari URL
+	id, err := getIDFromURL(r, "/category/") //Memanggil helper untuk mendapatkan ID dari URL
 	if err != nil {
 		http.Error(w, "Invalid Category ID", http.StatusBadRequest)
 		return
@@ -209,10 +209,10 @@ func handleCategoryByID(w http.ResponseWriter, r *http.Request) {
 // Deklarasi Fungsi utama untuk menjalankan server
 
 func main() {
-	// GET localhost:8040/api/produk/{id}
-	// PUT localhost:8040/api/produk/{id}
-	// DELETE localhost:8040/api/produk/{id}
-	http.HandleFunc("/api/produk/", func(w http.ResponseWriter, r *http.Request) {
+	// GET localhost:8040/produk/{id}
+	// PUT localhost:8040/produk/{id}
+	// DELETE localhost:8040/produk/{id}
+	http.HandleFunc("/produk/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
 			getProdukByID(w, r)
 		} else if r.Method == "PUT" {
@@ -256,9 +256,9 @@ func main() {
 	fmt.Println("Server running on port 8040")
 
 	// Routing untuk Category
-	http.HandleFunc("/api/category", handleCategories)
+	http.HandleFunc("/category", handleCategories)
 
-	http.HandleFunc("/api/category/", handleCategoryByID)
+	http.HandleFunc("/category/", handleCategoryByID)
 
 	err := http.ListenAndServe(":8040", nil)
 	if err != nil {
