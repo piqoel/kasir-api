@@ -31,7 +31,7 @@ var produk = []Produk{
 	{ID: 3, Nama: "Kecap", Harga: 12000, Stok: 20},
 }
 
-var category = []Category{
+var categories = []Category{
 	{ID: 1, Nama: "Makanan", Description: "Kategori untuk semua makanan"},
 	{ID: 2, Nama: "Minuman", Description: "Kategori untuk semua minuman"},
 	{ID: 3, Nama: "Bumbu", Description: "Kategori untuk semua bumbu dapur"},
@@ -129,7 +129,7 @@ func handleCategories(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		json.NewEncoder(w).Encode(category) //Mengambil semua data category
+		json.NewEncoder(w).Encode(categories) //Mengambil semua data category
 
 	case "POST":
 		var newCategory Category
@@ -139,8 +139,8 @@ func handleCategories(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Logic penambahan ID
-		newCategory.ID = len(category) + 1
-		category = append(category, newCategory) //Menambahkan data category baru
+		newCategory.ID = len(categories) + 1
+		categories = append(categories, newCategory) //Menambahkan data category baru
 
 		// Status 201 Created
 		w.WriteHeader(http.StatusCreated)
@@ -154,6 +154,7 @@ func handleCategories(w http.ResponseWriter, r *http.Request) {
 // Handler untuk menangani single data berdasarkan ID
 func handleCategoryByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+
 	id, err := getIDFromURL(r, "/api/category/") //Memanggil helper untuk mendapatkan ID dari URL
 	if err != nil {
 		http.Error(w, "Invalid Category ID", http.StatusBadRequest)
@@ -162,32 +163,34 @@ func handleCategoryByID(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		for _, c := range category {
+		for _, c := range categories {
 			if c.ID == id {
 				json.NewEncoder(w).Encode(c) //Mengembalikan data category sesuai ID
 				return
 			}
 		}
 		http.Error(w, "Category not found", http.StatusNotFound)
+
 	case "PUT":
 		var updatedCategory Category
 		if err := json.NewDecoder(r.Body).Decode(&updatedCategory); err != nil { //Baca request body
 			http.Error(w, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		for i := range category {
-			if category[i].ID == id {
+		for i, c := range categories {
+			if c.ID == id {
 				updatedCategory.ID = id
-				category[i] = updatedCategory //Update data category sesuai ID
+				categories[i] = updatedCategory //Update data category sesuai ID
 				json.NewEncoder(w).Encode(updatedCategory)
 				return
 			}
 		}
 		http.Error(w, "Category not found", http.StatusNotFound)
+
 	case "DELETE":
-		for i, c := range category {
+		for i, c := range categories {
 			if c.ID == id {
-				category = append(category[:i], category[i+1:]...)
+				categories = append(categories[:i], categories[i+1:]...)
 
 				w.Header().Set("Content-Type", "application/json")
 				json.NewEncoder(w).Encode(map[string]string{
