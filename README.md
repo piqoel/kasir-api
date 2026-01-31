@@ -1,5 +1,5 @@
 Simple Kasir API
-API sederhana untuk manajemen Produk dan Kategori pada sistem kasir dibangun menggunakan Golang.
+API sederhana untuk manajemen Produk dan Kategori pada sistem kasir dibangun menggunakan Golang dengan menggunakan Layered Architecture dan terkoneksi dengan database berbasis postgresql menggunakan Supabase.
 
 Base URL:
 https://kasir-api-production-edd3.up.railway.app
