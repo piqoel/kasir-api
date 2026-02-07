@@ -61,6 +61,22 @@ func main() {
 	http.HandleFunc("/api/category", categoryHandler.HandleCategories)
 	http.HandleFunc("/api/category/", categoryHandler.HandleCategoryByID)
 
+	// Transaction
+	transactionRepo := repositories.NewTransactionRepository(db)
+	transactionService := services.NewTransactionService(transactionRepo)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
+
+	// Routing untuk Transaction
+	http.HandleFunc("/api/checkout", transactionHandler.HandleCheckout) // POST
+
+	// Report
+	reportRepo := repositories.NewReportRepository(db)
+	reportService := services.NewReportService(reportRepo)
+	reportHandler := handlers.NewReportHandler(reportService)
+
+	// Routing untuk Report
+	http.HandleFunc("/api/report", reportHandler.HandleReport)
+
 	// localhost:8040/health
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
