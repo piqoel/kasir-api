@@ -93,3 +93,44 @@ JSON
 🔴 Hapus Produk
 URL: /produk/{id} (Contoh: /produk/1)
 Method: DELETE
+
+4. Transaksi (Transactions)
+
+🔵 Checkout (Membuat Transaksi Baru)
+Mencatat transaksi pembelian baru, mengurangi stok produk, dan menyimpan detail harga.
+
+URL: /api/checkout
+Method: POST
+
+Body (JSON):
+```json
+{
+  "items": [
+    {
+      "product_id": 1,
+      "quantity": 2
+    },
+    {
+      "product_id": 3,
+      "quantity": 1
+    }
+  ]
+}
+
+5. Laporan (Reports)
+
+🟢 Laporan Penjualan (Sales Summary) Melihat ringkasan pendapatan, total transaksi, dan produk terlaris.
+
+URL: /api/report Method: GET
+
+Parameter (Query Params):
+
+start_date (Optional): Format YYYY-MM-DD
+
+end_date (Optional): Format YYYY-MM-DD
+
+Contoh Penggunaan:
+
+Laporan Hari Ini: GET /api/report
+
+Laporan Berdasarkan Tanggal: GET /api/report?start_date=2026-01-01&end_date=2026-02-28
