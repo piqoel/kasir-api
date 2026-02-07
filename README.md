@@ -102,6 +102,9 @@ Mencatat transaksi pembelian baru, mengurangi stok produk, dan menyimpan detail 
 URL: /api/checkout
 Method: POST
 
+URL: /api/checkout
+Method: POST
+
 Body (JSON):
 ```json
 {
@@ -116,6 +119,7 @@ Body (JSON):
     }
   ]
 }
+```
 
 5. Laporan (Reports)
 
